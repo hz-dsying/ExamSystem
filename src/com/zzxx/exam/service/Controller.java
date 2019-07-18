@@ -66,12 +66,6 @@ public class Controller {
         return questions;
     }
 
-    public void startExam(){
-        // 获得用户 loginUser   考试科目：先确定    考试时间：自定义
-        // 创建一个试卷
-        // 获得试卷中第一道题
-    }
-
     // 上一题
     public int beforeQuestion(int num){
         if (num >= 2 && num <= 20){
@@ -84,10 +78,10 @@ public class Controller {
         return entityContext;
     }
 
-    // 下一题num ++;
+    // 下一题
     public int nextQuestion(int num){
         if (num >= 1 && num <= 19){
-
+            num ++;
         }
         return num;
     }
@@ -110,6 +104,14 @@ public class Controller {
 
 
     // 交卷
+    public void submit(String result){
+        entityContext.addGrade(result);
+    }
+
+    // 查看成绩
+    public String getGrades() throws IOException {
+        return entityContext.getGrades();
+    }
 
     // 计算分数
     public int getScore(Map<Integer, List> answers, Map<Integer, Question> questions) {

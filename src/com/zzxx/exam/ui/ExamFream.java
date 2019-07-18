@@ -212,4 +212,9 @@ public class ExamFream extends JFrame {
     public void update(int h, int m, int s) {
         t7.setText("剩余时间:" + h + ":" + m + ":" + s);
     }
+
+    public String getExamName(){
+        String str = t4.getText();
+        return str.substring(5);
+    }
 }

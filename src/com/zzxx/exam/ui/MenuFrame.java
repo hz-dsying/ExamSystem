@@ -104,7 +104,11 @@ public class MenuFrame extends JFrame {
         score.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                try {
+                    clientContext.getGrades();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
             @Override
             public void mouseEntered(MouseEvent e) {

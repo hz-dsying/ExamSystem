@@ -1,6 +1,5 @@
 package com.zzxx.exam.bean;
 
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,11 +14,14 @@ public class EntityContext {
     private Map<Integer, List> allQuestions;
     private Map<String, User> users;
     private String rule;
+    private PrintWriter pw;
 
     public EntityContext() throws IOException {
         jxQuestion();
         jxUser();
         jxRule();
+        String path = EntityContext.class.getResource("../util/grades.txt").getFile();
+        pw = new PrintWriter(new FileOutputStream(path, true),true);
     }
 
     public Map<Integer, List> getAllQuestions() {
@@ -118,5 +120,23 @@ public class EntityContext {
     public User getUserByID(String id) {
         User user = users.get(id);
         return user;
+    }
+
+    // 写入成绩
+    public void addGrade(String message){
+        pw.println(message);
+        pw.close();
+    }
+
+    // 查询成绩
+    public String getGrades() throws IOException {
+        String path = EntityContext.class.getResource("../util/grades.txt").getFile();
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+        String message = "";
+        String str = null;
+        while ((str = br.readLine()) != null){
+            message = message + str + "\n";
+        }
+        return message;
     }
 }

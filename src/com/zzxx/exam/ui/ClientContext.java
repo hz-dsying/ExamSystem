@@ -55,7 +55,6 @@ public class ClientContext {
 
     // 登录界面切换
     public void login() throws IOException {
-
         try {
             id = loginFrame.getId().getText();
             password = new String(loginFrame.getPassword().getPassword());
@@ -74,8 +73,6 @@ public class ClientContext {
 
     // 开始考试
     public void startExam() throws IOException {
-
-
         Paper paper = new Paper();
         answers = paper.getUserAnswers();
         questions = controller.createPaper(paper);
@@ -83,6 +80,7 @@ public class ClientContext {
         num = 1;
         examFream.update(name, id);
         examFream.update(num, questions.get(num));
+        examFream.update(num, answers);
         menuFrame.setVisible(false);
         examFream.setVisible(true);
         Thread t = new Thread(new Runnable() {
@@ -115,6 +113,15 @@ public class ClientContext {
         UIManager.put("OptionPane.messageFont", new FontUIResource(new Font("宋体", Font.CENTER_BASELINE, 23)));
         option.showMessageDialog(null, controller.readRule(),"考试规则",JOptionPane.ERROR_MESSAGE);
     }
+
+    // 查看成绩
+    public void getGrades() throws IOException {
+        String message = controller.getGrades();
+        JOptionPane option = new JOptionPane();
+        UIManager.put("OptionPane.messageFont", new FontUIResource(new Font("宋体", Font.CENTER_BASELINE, 20)));
+        option.showMessageDialog(null, message,"成绩查询",JOptionPane.INFORMATION_MESSAGE);
+    }
+
     // 考试界面上一题
     public void beforeQuestion() {
         if (num == 1){
@@ -152,6 +159,8 @@ public class ClientContext {
         answers.put(num,list);
         int score = controller.getScore(answers, questions);
         new JOptionPane().showMessageDialog(null, "分数为：" + score,"提示",JOptionPane.INFORMATION_MESSAGE);
+        String result = id + "  " + name + "  " + examFream.getExamName() + "  " + score;
+        controller.submit(result);
         examFream.setVisible(false);
         menuFrame.setVisible(true);
     }
